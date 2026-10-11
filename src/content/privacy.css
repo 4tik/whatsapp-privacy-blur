@@ -1,0 +1,159 @@
+/**
+ * WhatsApp Privacy Blur - High Performance CSS Stylesheet
+ *
+ * Uses hardware-accelerated CSS blur filters and CSS custom properties.
+ * Master toggle and category switches are controlled via classes on <body>.
+ */
+
+:root {
+  --wpb-blur-radius: 8px;
+  --wpb-transition-speed: 0.18s;
+}
+
+/* ==========================================================================
+   1. Master State Controls
+   ========================================================================== */
+
+/* When privacy is revealed temporarily, all blur filters are suspended immediately */
+body.wpb-revealed [data-wpb-message],
+body.wpb-revealed [data-wpb-name],
+body.wpb-revealed [data-wpb-avatar],
+body.wpb-revealed [data-wpb-preview],
+body.wpb-revealed [data-wpb-group],
+body.wpb-revealed #pane-side span[title],
+body.wpb-revealed #main header span[title],
+body.wpb-revealed #pane-side img,
+body.wpb-revealed #main header img,
+body.wpb-revealed span.selectable-text,
+body.wpb-revealed div[data-testid="selectable-text"],
+body.wpb-revealed div[data-testid="quoted-message"] {
+  filter: none !important;
+  transition: filter var(--wpb-transition-speed) ease-in-out !important;
+}
+
+/* ==========================================================================
+   2. Message Text Blur
+   ========================================================================== */
+body.wpb-active.wpb-blur-messages:not(.wpb-revealed) [data-wpb-message],
+body.wpb-active.wpb-blur-messages:not(.wpb-revealed) #main span.selectable-text,
+body.wpb-active.wpb-blur-messages:not(.wpb-revealed) #main div[data-testid="selectable-text"],
+body.wpb-active.wpb-blur-messages:not(.wpb-revealed) #main span.copyable-text,
+body.wpb-active.wpb-blur-messages:not(.wpb-revealed) div[data-testid="msg-container"] span.selectable-text,
+body.wpb-active.wpb-blur-messages:not(.wpb-revealed) div[data-testid="quoted-message"],
+body.wpb-active.wpb-blur-messages:not(.wpb-revealed) div[data-testid="chat-quoted-message"] {
+  filter: blur(var(--wpb-blur-radius, 8px)) !important;
+  transition: filter var(--wpb-transition-speed) ease-in-out !important;
+  user-select: none;
+}
+
+/* Hover reveal for messages */
+body.wpb-active.wpb-blur-messages.wpb-hover-reveal:not(.wpb-revealed) [data-wpb-message]:hover,
+body.wpb-active.wpb-blur-messages.wpb-hover-reveal:not(.wpb-revealed) #main span.selectable-text:hover,
+body.wpb-active.wpb-blur-messages.wpb-hover-reveal:not(.wpb-revealed) #main div[data-testid="selectable-text"]:hover,
+body.wpb-active.wpb-blur-messages.wpb-hover-reveal:not(.wpb-revealed) div[data-testid="msg-container"]:hover span.selectable-text,
+body.wpb-active.wpb-blur-messages.wpb-hover-reveal:not(.wpb-revealed) div[data-testid="quoted-message"]:hover {
+  filter: blur(0px) !important;
+  user-select: text;
+}
+
+/* STRICT EXCLUSIONS: Timestamps, read-receipt checkmarks, and message action buttons MUST NEVER be blurred */
+[data-testid="msg-meta"],
+[data-testid="msg-time"],
+span[data-testid="msg-time"],
+span[data-testid="status-dblcheck"],
+span[data-testid="status-check"],
+span[data-testid="status-time"],
+div[data-testid="msg-container"] button,
+div[data-testid="msg-container"] [role="button"],
+div[data-testid="msg-container"] [data-testid="tail-in"],
+div[data-testid="msg-container"] [data-testid="tail-out"] {
+  filter: none !important;
+}
+
+/* ==========================================================================
+   3. Contact & Usernames Blur
+   ========================================================================== */
+body.wpb-active.wpb-blur-names:not(.wpb-revealed) [data-wpb-name],
+body.wpb-active.wpb-blur-names:not(.wpb-revealed) #pane-side span[title],
+body.wpb-active.wpb-blur-names:not(.wpb-revealed) [aria-label="Chat list"] span[title],
+body.wpb-active.wpb-blur-names:not(.wpb-revealed) div[data-testid="cell-frame-title"] span,
+body.wpb-active.wpb-blur-names:not(.wpb-revealed) #main header [data-testid="conversation-info-header-chat-title"],
+body.wpb-active.wpb-blur-names:not(.wpb-revealed) #main header span[title],
+body.wpb-active.wpb-blur-names:not(.wpb-revealed) #main header [role="button"] span[dir="auto"],
+body.wpb-active.wpb-blur-names:not(.wpb-revealed) div[data-testid="msg-container"] span[data-testid="author-name"],
+body.wpb-active.wpb-blur-names:not(.wpb-revealed) div[data-testid="drawer-right"] span[title],
+body.wpb-active.wpb-blur-names:not(.wpb-revealed) div[data-testid="group-info-drawer"] span[title] {
+  filter: blur(var(--wpb-blur-radius, 8px)) !important;
+  transition: filter var(--wpb-transition-speed) ease-in-out !important;
+}
+
+/* Hover reveal for contact names */
+body.wpb-active.wpb-blur-names.wpb-hover-reveal:not(.wpb-revealed) [data-wpb-name]:hover,
+body.wpb-active.wpb-blur-names.wpb-hover-reveal:not(.wpb-revealed) #pane-side span[title]:hover,
+body.wpb-active.wpb-blur-names.wpb-hover-reveal:not(.wpb-revealed) #main header span[title]:hover,
+body.wpb-active.wpb-blur-names.wpb-hover-reveal:not(.wpb-revealed) #main header [role="button"]:hover span[dir="auto"],
+body.wpb-active.wpb-blur-names.wpb-hover-reveal:not(.wpb-revealed) div[data-testid="drawer-right"] span[title]:hover {
+  filter: blur(0px) !important;
+}
+
+/* ==========================================================================
+   4. Profile Avatars Blur
+   ========================================================================== */
+body.wpb-active.wpb-blur-avatars:not(.wpb-revealed) [data-wpb-avatar],
+body.wpb-active.wpb-blur-avatars:not(.wpb-revealed) #pane-side img,
+body.wpb-active.wpb-blur-avatars:not(.wpb-revealed) [aria-label="Chat list"] img,
+body.wpb-active.wpb-blur-avatars:not(.wpb-revealed) div[data-testid="cell-frame-container"] img,
+body.wpb-active.wpb-blur-avatars:not(.wpb-revealed) #main header img,
+body.wpb-active.wpb-blur-avatars:not(.wpb-revealed) div[data-testid="conversation-header"] img,
+body.wpb-active.wpb-blur-avatars:not(.wpb-revealed) div[data-testid="msg-container"] img[src*="blob"],
+body.wpb-active.wpb-blur-avatars:not(.wpb-revealed) div[data-testid="msg-container"] img[src*="whatsapp"],
+body.wpb-active.wpb-blur-avatars:not(.wpb-revealed) div[data-testid="drawer-right"] img,
+body.wpb-active.wpb-blur-avatars:not(.wpb-revealed) div[data-testid="group-info-drawer"] img,
+body.wpb-active.wpb-blur-avatars:not(.wpb-revealed) [data-testid="avatar-wrapper"] img {
+  filter: blur(var(--wpb-blur-radius, 8px)) !important;
+  transition: filter var(--wpb-transition-speed) ease-in-out !important;
+}
+
+/* Hover reveal for avatars */
+body.wpb-active.wpb-blur-avatars.wpb-hover-reveal:not(.wpb-revealed) [data-wpb-avatar]:hover,
+body.wpb-active.wpb-blur-avatars.wpb-hover-reveal:not(.wpb-revealed) #pane-side img:hover,
+body.wpb-active.wpb-blur-avatars.wpb-hover-reveal:not(.wpb-revealed) #main header img:hover,
+body.wpb-active.wpb-blur-avatars.wpb-hover-reveal:not(.wpb-revealed) div[data-testid="drawer-right"] img:hover {
+  filter: blur(0px) !important;
+}
+
+/* ==========================================================================
+   5. Chat List Previews Blur
+   ========================================================================== */
+body.wpb-active.wpb-blur-previews:not(.wpb-revealed) [data-wpb-preview],
+body.wpb-active.wpb-blur-previews:not(.wpb-revealed) #pane-side [data-testid="last-msg-status"],
+body.wpb-active.wpb-blur-previews:not(.wpb-revealed) div[data-testid="cell-frame-secondary-title"],
+body.wpb-active.wpb-blur-previews:not(.wpb-revealed) #pane-side div[role="row"] span[dir="ltr"]:not([title]),
+body.wpb-active.wpb-blur-previews:not(.wpb-revealed) #pane-side div[role="row"] span[dir="rtl"]:not([title]) {
+  filter: blur(var(--wpb-blur-radius, 8px)) !important;
+  transition: filter var(--wpb-transition-speed) ease-in-out !important;
+}
+
+/* Hover reveal for chat previews */
+body.wpb-active.wpb-blur-previews.wpb-hover-reveal:not(.wpb-revealed) [data-wpb-preview]:hover,
+body.wpb-active.wpb-blur-previews.wpb-hover-reveal:not(.wpb-revealed) #pane-side div[role="row"]:hover [data-wpb-preview],
+body.wpb-active.wpb-blur-previews.wpb-hover-reveal:not(.wpb-revealed) #pane-side div[role="row"]:hover div[data-testid="cell-frame-secondary-title"] {
+  filter: blur(0px) !important;
+}
+
+/* ==========================================================================
+   6. Group & Participant Info Blur
+   ========================================================================== */
+body.wpb-active.wpb-blur-groups:not(.wpb-revealed) [data-wpb-group],
+body.wpb-active.wpb-blur-groups:not(.wpb-revealed) [data-testid="group-info-drawer"] [data-testid="group-info-description"],
+body.wpb-active.wpb-blur-groups:not(.wpb-revealed) [data-testid="group-info-drawer"] [role="listitem"] span[title],
+body.wpb-active.wpb-blur-groups:not(.wpb-revealed) div[data-testid="drawer-right"] [role="listitem"] span[title] {
+  filter: blur(var(--wpb-blur-radius, 8px)) !important;
+  transition: filter var(--wpb-transition-speed) ease-in-out !important;
+}
+
+/* Hover reveal for group info */
+body.wpb-active.wpb-blur-groups.wpb-hover-reveal:not(.wpb-revealed) [data-wpb-group]:hover,
+body.wpb-active.wpb-blur-groups.wpb-hover-reveal:not(.wpb-revealed) [data-testid="group-info-drawer"] [role="listitem"]:hover span[title] {
+  filter: blur(0px) !important;
+}

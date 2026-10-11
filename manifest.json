@@ -1,0 +1,58 @@
+{
+  "manifest_version": 3,
+  "name": "WhatsApp Privacy Blur",
+  "version": "1.0.0",
+  "description": "Protects your privacy on WhatsApp Web by selectively blurring messages, contact names, profile avatars, and previews.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/index.html",
+    "default_title": "WhatsApp Privacy Blur",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://web.whatsapp.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://web.whatsapp.com/*"
+      ],
+      "css": [
+        "content/privacy.css"
+      ],
+      "js": [
+        "content/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "toggle-blur": {
+      "suggested_key": {
+        "default": "Alt+X",
+        "mac": "Alt+X"
+      },
+      "description": "Toggle Master Privacy Blur on WhatsApp Web"
+    },
+    "toggle-temporary-reveal": {
+      "suggested_key": {
+        "default": "Alt+Shift+X",
+        "mac": "Alt+Shift+X"
+      },
+      "description": "Temporarily reveal/hide blurred content"
+    }
+  }
+}
